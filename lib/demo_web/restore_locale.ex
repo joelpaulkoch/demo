@@ -1,4 +1,8 @@
 defmodule DemoWeb.RestoreLocale do
+  @moduledoc """
+  Restores the locale on mount
+  """
+
   def on_mount(:default, %{"locale" => locale}, _session, socket) do
     if locale in Gettext.known_locales(DemoWeb.Gettext) do
       Gettext.put_locale(DemoWeb.Gettext, locale)
