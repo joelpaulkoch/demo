@@ -1,5 +1,20 @@
 import Config
 
+if config_env() == :prod do
+  # ....
+  # Configure S3 client
+  config :ex_aws,
+    debug_requests: true,
+    json_codec: Jason,
+    access_key_id: {:system, "AWS_ACCESS_KEY_ID"},
+    secret_access_key: {:system, "AWS_SECRET_ACCESS_KEY"}
+
+  config :ex_aws, :s3,
+    scheme: "https://",
+    host: "s3-eu-central-1.ionoscloud.com",
+    region: "auto"
+end
+
 # config/runtime.exs is executed for all environments, including
 # during releases. It is executed after compilation and before the
 # system starts, so it is typically used to load production configuration
