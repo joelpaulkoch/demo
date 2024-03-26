@@ -1,4 +1,6 @@
 defmodule DemoWeb.UserAuth do
+  @moduledoc false
+
   use DemoWeb, :verified_routes
 
   import Plug.Conn
