@@ -26,6 +26,8 @@ defmodule DemoWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    get "/terms_of_service", PageController, :terms_of_service
+    get "/privacy", PageController, :privacy
   end
 
   # Other scopes may use custom stacks.
