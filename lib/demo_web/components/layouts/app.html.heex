@@ -48,12 +48,6 @@
             </li>
           <% end %>
         </ul>
-        <.dropdown id="locale">
-          <:title><%= Gettext.get_locale(DemoWeb.Gettext) %></:title>
-          <:link :for={locale <- Gettext.known_locales(DemoWeb.Gettext)}>
-            <%= locale %>
-          </:link>
-        </.dropdown>
       </div>
     </div>
   </header>
