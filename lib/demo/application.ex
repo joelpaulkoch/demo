@@ -7,6 +7,8 @@ defmodule Demo.Application do
 
   @impl true
   def start(_type, _args) do
+    Demo.Release.migrate()
+
     children = [
       DemoWeb.Telemetry,
       Demo.Repo,
