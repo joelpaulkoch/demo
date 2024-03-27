@@ -4,55 +4,90 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title suffix=" · Phoenix Framework">
+    <.live_title suffix=" · Demo">
       <%= assigns[:page_title] || "Demo" %>
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
+    <link rel="icon" href={~p"/images/logo.svg"} type="image/svg+xml" />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
   </head>
   <body class="bg-white antialiased">
-    <ul class="relative z-10 flex items-center justify-end gap-4 px-4 sm:px-6 lg:px-8">
-      <%= if @current_user do %>
-        <li class="text-[0.8125rem] leading-6 text-zinc-900">
-          <%= @current_user.email %>
-        </li>
-        <li>
-          <.link
-            href={~p"/users/settings"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Settings
-          </.link>
-        </li>
-        <li>
-          <.link
-            href={~p"/users/log_out"}
-            method="delete"
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Log out
-          </.link>
-        </li>
-      <% else %>
-        <li>
-          <.link
-            href={~p"/users/register"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Register
-          </.link>
-        </li>
-        <li>
-          <.link
-            href={~p"/users/log_in"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Log in
-          </.link>
-        </li>
-      <% end %>
-    </ul>
-    <%= @inner_content %>
+    <div class="min-h-dvh flex flex-col">
+      <header class="px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between py-3 text-sm">
+          <div class="flex items-center gap-4">
+            <a href="/">
+              <img src={~p"/images/logo.svg"} width="36" />
+            </a>
+          </div>
+          <div class="flex items-center gap-4">
+            <ul class="relative z-10 flex flex items-center items-center justify-end justify-between gap-4 py-3 text-sm">
+              <%= if @current_user do %>
+                <li class="text-[0.8125rem] leading-6 text-zinc-900">
+                  <%= @current_user.email %>
+                </li>
+                <li>
+                  <.link
+                    href={~p"/users/settings"}
+                    class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+                  >
+                    Settings
+                  </.link>
+                </li>
+                <li>
+                  <.link
+                    href={~p"/users/log_out"}
+                    method="delete"
+                    class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+                  >
+                    Log out
+                  </.link>
+                </li>
+              <% else %>
+                <li>
+                  <.link
+                    href={~p"/users/register"}
+                    class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+                  >
+                    Register
+                  </.link>
+                </li>
+                <li>
+                  <.link
+                    href={~p"/users/log_in"}
+                    class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+                  >
+                    Log in
+                  </.link>
+                </li>
+              <% end %>
+            </ul>
+            <.dropdown id="locale">
+              <:title><%= Gettext.get_locale(DemoWeb.Gettext) %></:title>
+              <:link :for={locale <- Gettext.known_locales(DemoWeb.Gettext)}>
+                <%= locale %>
+              </:link>
+            </.dropdown>
+          </div>
+        </div>
+      </header>
+      <div class="grow">
+        <%= @inner_content %>
+      </div>
+      <footer class="flex w-full shrink-0 flex-col-reverse items-center gap-2 border-t px-4 py-6 sm:flex-row md:px-6">
+        <p class="text-xs text-gray-500 dark:text-gray-400">
+          © 2024 Demo. All rights reserved.
+        </p>
+        <nav class="flex gap-4 sm:ml-auto sm:gap-6">
+          <a class="text-xs underline-offset-4 hover:underline" href="#">
+            <%= gettext("Terms of Service") %>
+          </a>
+          <a class="text-xs underline-offset-4 hover:underline" href="#">
+            <%= gettext("Privacy") %>
+          </a>
+        </nav>
+      </footer>
+    </div>
   </body>
 </html>
