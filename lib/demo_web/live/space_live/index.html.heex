@@ -1,0 +1,40 @@
+<.header>
+  Listing Spaces
+  <:actions>
+    <.link patch={~p"/spaces/new"}>
+      <.button>New Space</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="spaces"
+  rows={@streams.spaces}
+  row_click={fn {_id, space} -> JS.navigate(~p"/spaces/#{space}") end}
+>
+  <:col :let={{_id, space}} label="Name"><%= space.name %></:col>
+  <:action :let={{_id, space}}>
+    <div class="sr-only">
+      <.link navigate={~p"/spaces/#{space}"}>Show</.link>
+    </div>
+  </:action>
+  <:action :let={{id, space}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: space.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new]} id="space-modal" show on_cancel={JS.patch(~p"/spaces")}>
+  <.live_component
+    module={DemoWeb.SpaceLive.FormComponent}
+    id={@space.id || :new}
+    title={@page_title}
+    action={@live_action}
+    space={@space}
+    patch={~p"/spaces"}
+  />
+</.modal>

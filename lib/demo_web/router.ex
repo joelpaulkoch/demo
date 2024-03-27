@@ -85,6 +85,10 @@ defmodule DemoWeb.Router do
       on_mount: [{DemoWeb.UserAuth, :mount_current_user}] do
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
+
+      live "/spaces", SpaceLive.Index, :index
+      live "/spaces/new", SpaceLive.Index, :new
+      live "/spaces/:id", SpaceLive.Show, :show
     end
   end
 end

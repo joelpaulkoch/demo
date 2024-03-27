@@ -1,0 +1,10 @@
+<.header>
+  Space <%= @space.id %>
+  <:subtitle>This is a space record from your database.</:subtitle>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @space.name %></:item>
+</.list>
+
+<.back navigate={~p"/spaces"}>Back to spaces</.back>
