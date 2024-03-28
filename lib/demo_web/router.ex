@@ -25,7 +25,6 @@ defmodule DemoWeb.Router do
   scope "/", DemoWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
     get "/terms_of_service", PageController, :terms_of_service
     get "/privacy", PageController, :privacy
   end
@@ -85,6 +84,7 @@ defmodule DemoWeb.Router do
 
     live_session :current_user,
       on_mount: [{DemoWeb.UserAuth, :mount_current_user}] do
+      live "/", HomeLive, :index
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
 
