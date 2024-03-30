@@ -10,12 +10,12 @@
 <.table
   id="spaces"
   rows={@streams.spaces}
-  row_click={fn {_id, space} -> JS.navigate(~p"/spaces/#{space}") end}
+  row_click={fn {_id, space} -> JS.navigate(~p"/spaces/#{space.name}") end}
 >
   <:col :let={{_id, space}} label="Name"><%= space.name %></:col>
   <:action :let={{_id, space}}>
     <div class="sr-only">
-      <.link navigate={~p"/spaces/#{space}"}>Show</.link>
+      <.link navigate={~p"/spaces/#{space.name}"}>Show</.link>
     </div>
   </:action>
   <:action :let={{id, space}}>

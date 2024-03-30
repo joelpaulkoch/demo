@@ -20,5 +20,7 @@ defmodule Demo.Spaces.Space do
     space
     |> cast(attrs, [:name])
     |> validate_required([:name])
+    |> validate_format(:name, ~r/^[^\s]+$/)
+    |> unique_constraint([:name])
   end
 end

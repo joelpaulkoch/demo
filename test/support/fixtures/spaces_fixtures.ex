@@ -11,7 +11,7 @@ defmodule Demo.SpacesFixtures do
     {:ok, space} =
       attrs
       |> Enum.into(%{
-        name: "some name"
+        name: "space_#{System.unique_integer([:positive])}"
       })
       |> Demo.Spaces.create_space()
 

@@ -4,7 +4,7 @@ defmodule DemoWeb.SpaceLiveTest do
   import Phoenix.LiveViewTest
   import Demo.SpacesFixtures
 
-  @create_attrs %{name: "some name"}
+  @create_attrs %{name: "some_name"}
   @invalid_attrs %{name: nil}
 
   defp create_space(_) do
@@ -42,7 +42,7 @@ defmodule DemoWeb.SpaceLiveTest do
 
       html = render(index_live)
       assert html =~ "Space created successfully"
-      assert html =~ "some name"
+      assert html =~ "some_name"
     end
 
     test "deletes space in listing", %{conn: conn, space: space} do

@@ -26,10 +26,10 @@ defmodule Demo.SpacesTest do
     end
 
     test "create_space/1 with valid data creates a space" do
-      valid_attrs = %{name: "some name"}
+      valid_attrs = %{name: "some_name"}
 
       assert {:ok, %Space{} = space} = Spaces.create_space(valid_attrs)
-      assert space.name == "some name"
+      assert space.name == "some_name"
     end
 
     test "create_space/1 with empty name returns error changeset" do
@@ -41,12 +41,25 @@ defmodule Demo.SpacesTest do
       assert {:error, %Ecto.Changeset{}} = Spaces.create_space(@invalid_attrs)
     end
 
+    test "space names are unique" do
+      space_attrs = %{name: "some_name"}
+      {:ok, %Space{}} = Spaces.create_space(space_attrs)
+
+      assert {:error, %Ecto.Changeset{}} = Spaces.create_space(space_attrs)
+    end
+
+    test "space names do not contain whitespace" do
+      invalid_attrs = %{name: "some name"}
+
+      assert {:error, %Ecto.Changeset{}} = Spaces.create_space(invalid_attrs)
+    end
+
     test "update_space/2 with valid data updates the space" do
       space = space_fixture()
-      update_attrs = %{name: "some updated name"}
+      update_attrs = %{name: "some_updated_name"}
 
       assert {:ok, %Space{} = space} = Spaces.update_space(space, update_attrs)
-      assert space.name == "some updated name"
+      assert space.name == "some_updated_name"
     end
 
     test "update_space/2 with invalid data returns error changeset" do

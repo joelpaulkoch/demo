@@ -82,12 +82,21 @@ defmodule DemoWeb.HomeLive do
 
   @impl true
   def handle_event("open_space", _params, socket) do
-    color = Faker.Color.fancy_name()
-    cat = Faker.Cat.name()
-    space_name = color <> cat
+    space_name = get_unique_space_name()
 
     {:ok, space} = Demo.Spaces.create_space(%{name: space_name})
 
     {:noreply, push_navigate(socket, to: ~p"/spaces/#{space.name}")}
+  end
+
+  defp get_unique_space_name() do
+    color = Faker.Color.fancy_name()
+    cat = Faker.Cat.name()
+    space_name = color <> cat
+
+    case Demo.Spaces.get_space_by_name!(space_name) do
+      nil -> space_name
+      _ -> get_unique_space_name()
+    end
   end
 end
