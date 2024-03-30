@@ -57,9 +57,14 @@ defmodule DemoWeb.SpaceLiveTest do
     setup [:create_space]
 
     test "displays space", %{conn: conn, space: space} do
-      {:ok, _show_live, html} = live(conn, ~p"/spaces/#{space}")
+      {:ok, _show_live, html} = live(conn, ~p"/spaces/#{space.name}")
 
-      assert html =~ "Show Space"
+      assert html =~ space.name
+    end
+
+    test "has some magic", %{conn: conn, space: space} do
+      {:ok, _show_live, html} = live(conn, ~p"/spaces/#{space.name}")
+
       assert html =~ space.name
     end
   end

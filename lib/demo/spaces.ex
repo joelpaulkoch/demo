@@ -38,6 +38,24 @@ defmodule Demo.Spaces do
   def get_space!(id), do: Repo.get!(Space, id)
 
   @doc """
+  Gets a single space by name.
+
+  Returns `nil` if the Space does not exist.
+
+  ## Examples
+
+      iex> get_space_by_name!("some name")
+      %Space{}
+
+      iex> get_space_by_name!("some other name")
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_space_by_name!(name) when is_binary(name) do
+    Repo.get_by(Space, name: name)
+  end
+
+  @doc """
   Creates a space.
 
   ## Examples

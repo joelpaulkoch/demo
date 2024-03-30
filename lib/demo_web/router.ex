@@ -90,7 +90,7 @@ defmodule DemoWeb.Router do
 
       live "/spaces", SpaceLive.Index, :index
       live "/spaces/new", SpaceLive.Index, :new
-      live "/spaces/:id", SpaceLive.Show, :show
+      live "/spaces/:name", SpaceLive.Show, :show
     end
   end
 end

@@ -9,11 +9,11 @@ defmodule DemoWeb.SpaceLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(%{"name" => name}, _, socket) do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:space, Spaces.get_space!(id))}
+     |> assign(:space, Spaces.get_space_by_name!(name))}
   end
 
   defp page_title(:show), do: "Show Space"

@@ -20,11 +20,21 @@ defmodule Demo.SpacesTest do
       assert Spaces.get_space!(space.id) == space
     end
 
+    test "get_space_by_name!/1 returns the space with given name" do
+      space = space_fixture()
+      assert Spaces.get_space_by_name!(space.name) == space
+    end
+
     test "create_space/1 with valid data creates a space" do
       valid_attrs = %{name: "some name"}
 
       assert {:ok, %Space{} = space} = Spaces.create_space(valid_attrs)
       assert space.name == "some name"
+    end
+
+    test "create_space/1 with empty name returns error changeset" do
+      invalid_attrs = %{name: ""}
+      assert {:error, %Ecto.Changeset{}} = Spaces.create_space(invalid_attrs)
     end
 
     test "create_space/1 with invalid data returns error changeset" do
