@@ -62,10 +62,11 @@ defmodule DemoWeb.SpaceLiveTest do
       assert html =~ space.name
     end
 
-    test "has some magic", %{conn: conn, space: space} do
+    test "shows magical image", %{conn: conn, space: space} do
       {:ok, _show_live, html} = live(conn, ~p"/spaces/#{space.name}")
 
-      assert html =~ space.name
+      assert html =~ "<img"
+      assert html =~ "Magical Image"
     end
   end
 end
