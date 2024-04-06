@@ -4,7 +4,8 @@ defmodule DemoWeb.SpaceLive.Show do
   alias Demo.Spaces
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(%{"name" => name}, _session, socket) do
+    Phoenix.PubSub.subscribe(Demo.PubSub, "space:#{name}")
     {:ok, socket}
   end
 
@@ -26,5 +27,23 @@ defmodule DemoWeb.SpaceLive.Show do
       |> ExAws.S3.presigned_url(:get, "demo-magic", image, [])
 
     image_url
+  end
+
+  @impl Phoenix.LiveView
+  def handle_event("update", _params, socket) do
+    image = Enum.random(["magic0.webp", "magic1.webp"])
+
+    Phoenix.PubSub.broadcast(
+      Demo.PubSub,
+      "space:#{socket.assigns.space.name}",
+      {:space_update, %{"image" => image}}
+    )
+
+    {:noreply, assign(socket, :image, image_from_s3(image))}
+  end
+
+  @impl true
+  def handle_info({:space_update, %{"image" => image}}, socket) do
+    {:noreply, assign(socket, :image, image_from_s3(image))}
   end
 end
