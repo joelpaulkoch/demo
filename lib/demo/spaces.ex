@@ -86,9 +86,14 @@ defmodule Demo.Spaces do
 
   """
   def update_space(%Space{} = space, attrs) do
-    space
-    |> Space.changeset(attrs)
-    |> Repo.update()
+    with {:ok, space} <-
+           space
+           |> Space.changeset(attrs)
+           |> Repo.update() do
+      Phoenix.PubSub.broadcast(Demo.PubSub, "space:#{space.name}", {:space_update, space})
+
+      {:ok, space}
+    end
   end
 
   @doc """

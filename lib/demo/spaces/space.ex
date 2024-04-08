@@ -11,6 +11,7 @@ defmodule Demo.Spaces.Space do
 
   schema "spaces" do
     field :name, :string
+    field :image, :string
 
     timestamps(type: :utc_datetime)
   end
@@ -18,7 +19,7 @@ defmodule Demo.Spaces.Space do
   @doc false
   def changeset(space, attrs) do
     space
-    |> cast(attrs, [:name])
+    |> cast(attrs, [:name, :image])
     |> validate_required([:name])
     |> validate_format(:name, ~r/^[^\s]+$/)
     |> unique_constraint([:name])

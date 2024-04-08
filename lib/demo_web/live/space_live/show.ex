@@ -11,14 +11,19 @@ defmodule DemoWeb.SpaceLive.Show do
 
   @impl true
   def handle_params(%{"name" => name}, _, socket) do
+    space =
+      Spaces.get_space_by_name!(name)
+
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:space, Spaces.get_space_by_name!(name))
-     |> assign(:image, image_from_s3("magic0.webp"))}
+     |> assign(:space, space)
+     |> assign(:image, image_from_s3(space.image))}
   end
 
   defp page_title(:show), do: "Show Space"
+
+  def image_from_s3(nil), do: nil
 
   def image_from_s3(image) do
     {:ok, image_url} =
@@ -33,17 +38,13 @@ defmodule DemoWeb.SpaceLive.Show do
   def handle_event("update", _params, socket) do
     image = Enum.random(["magic0.webp", "magic1.webp"])
 
-    Phoenix.PubSub.broadcast(
-      Demo.PubSub,
-      "space:#{socket.assigns.space.name}",
-      {:space_update, %{"image" => image}}
-    )
+    {:ok, _space} = Spaces.update_space(socket.assigns.space, %{image: image})
 
-    {:noreply, assign(socket, :image, image_from_s3(image))}
+    {:noreply, socket}
   end
 
   @impl true
-  def handle_info({:space_update, %{"image" => image}}, socket) do
+  def handle_info({:space_update, %{image: image}}, socket) do
     {:noreply, assign(socket, :image, image_from_s3(image))}
   end
 end

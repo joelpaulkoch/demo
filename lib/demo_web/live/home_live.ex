@@ -4,8 +4,6 @@ defmodule DemoWeb.HomeLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <.flash_group flash={@flash} />
-
     <div class="flex flex-col items-center">
       <main class="flex-1">
         <section class="w-full">

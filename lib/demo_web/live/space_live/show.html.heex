@@ -2,16 +2,24 @@
   Space <%= @space.name %>
   <:subtitle>This is a magic space.</:subtitle>
 </.header>
-<div class="min-h-96 grid grid-cols-3 place-items-center items-stretch justify-items-stretch gap-4">
-  <div class="col-span-2 flex flex-col justify-center rounded-3xl bg-black text-center text-white">
-    <img
-      src={@image}
-      alt="Magical Image"
-      class="aspect-square mx-auto my-10 h-80 rounded-xl object-cover object-center"
-    />
+<div class="min-h-96 grid grid-cols-1 place-items-center items-stretch justify-items-stretch gap-4 md:grid-cols-4">
+  <div class="col-span-1 flex flex-col rounded-3xl bg-black text-center text-white md:col-span-3">
+    <%= if @image do %>
+      <img
+        src={@image}
+        alt="Magical Image"
+        class="aspect-square mx-auto my-10 h-80 rounded-xl object-cover object-center"
+      />
+    <% else %>
+      <img
+        src={~p"/images/placeholder.svg"}
+        alt="Placeholder Image"
+        class="aspect-square mx-auto my-10 h-80 rounded-xl object-cover object-center"
+      />
+    <% end %>
   </div>
-  <div class="flex flex-col justify-center rounded-3xl bg-gray-400 text-center">
+  <div class="min-h-96 flex flex-col justify-center rounded-3xl bg-gray-400 text-center">
     Chat + Call + Share space
   </div>
+  <.button phx-click="update" class="row-start-2 md:col-start-2">update</.button>
 </div>
-<.button phx-click="update">update</.button>

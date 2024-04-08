@@ -12,7 +12,7 @@ defmodule DemoWeb.Router do
 
     plug :put_secure_browser_headers, %{
       "content-security-policy" =>
-        "default-src 'self';  img-src 'self' https://s3-eu-central-1.ionoscloud.com/demo-magic/;"
+        "default-src 'self';  img-src 'self' data: https://s3-eu-central-1.ionoscloud.com/demo-magic/;"
     }
 
     plug :fetch_current_user
