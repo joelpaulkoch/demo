@@ -29,10 +29,16 @@ defmodule DemoWeb.Router do
     get "/privacy", PageController, :privacy
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", DemoWeb do
-  #   pipe_through :api
-  # end
+  scope "/api" do
+    pipe_through :api
+
+    forward "/graphiql", Absinthe.Plug.GraphiQL,
+      schema: DemoWeb.Schema,
+      interface: :simple,
+      context: %{pubsub: DemoWeb.Endpoint}
+
+    forward "/", Absinthe.Plug, schema: DemoWeb.Schema
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:demo, :dev_routes) do

@@ -48,11 +48,35 @@ defmodule Demo.Spaces do
       %Space{}
 
       iex> get_space_by_name!("some other name")
-      ** (Ecto.NoResultsError)
+      ** nil
 
   """
   def get_space_by_name!(name) when is_binary(name) do
     Repo.get_by(Space, name: name)
+  end
+
+  @doc """
+  Try to find a single space.
+
+  Returns {:error, "this space does not exist"} if the Space does not exist.
+
+  ## Examples
+
+      iex> find_space(%{name: "some name"})
+      {:ok, %Space{}}
+
+      iex> find_space(%{name:"some other name"})
+      {:error, "this space does not exist"}
+
+  """
+  def find_space(args) do
+    case Repo.get_by(Space, args) do
+      nil ->
+        {:error, "this space does not exist"}
+
+      space ->
+        {:ok, space}
+    end
   end
 
   @doc """
